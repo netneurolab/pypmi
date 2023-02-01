@@ -1,1 +1,2 @@
 ppmi/_version.py export-subst
+pypmi/_version.py export-subst
