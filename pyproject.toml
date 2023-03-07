@@ -1,0 +1,100 @@
+[project]
+name = "pypmi"
+description = "A Python toolbox for working with data from the Parkinsons Progression Markers Initiative (PPMI)"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+keywords = ["example", "pypmi"]
+authors = [
+    {name = "Ross Markello", email = "rossmarkello@gmail.com"}
+]
+maintainers = [
+    {name = "Ross Markello", email = "rossmarkello@gmail.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10"
+]
+
+dependencies = [
+    "numpy",
+    "pandas",
+    "requests",
+    "scipy",
+    "tqdm"
+]
+
+dynamic = ["version"]
+
+[project.optional-dependencies]
+doc = [
+    "sphinx",
+    "sphinx_rtd_theme"
+]
+bids = [
+    "docker",
+    "nibabel",
+    "pybids",
+    "pydicom"
+]
+test = [
+    "pytest",
+    "pytest-cov"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/netneurolab/pypmi"
+
+
+[build-system]
+requires = ["setuptools", "versioneer[toml]"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = [
+  "pypmi",
+  "pypmi.*"
+]
+
+[tool.setuptools.package-data]
+"*" = ["*.json", "*.txt"]
+
+[tool.setuptools.dynamic]
+version = {attr = "pypmi.__version__"}
+
+[tool.versioneer]
+VCS = "git"
+style = "pep440"
+versionfile_source = "pypmi/_version.py"
+versionfile_build = "pypmi/_version.py"
+tag_prefix = ""
+parentdir_prefix = ""
+
+[tool.ruff]
+line-length = 88
+exclude = [
+  "setup.py",
+  "versioneer.py",
+  "pypmi/_version.py",
+  "docs/conf.py"
+]
+target-version = "py38"
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "W", "D", "NPY"]
+ignore = [
+    "E402"  # Module level import not at top of cell
+]
+preview = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
