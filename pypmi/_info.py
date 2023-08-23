@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Data structures specifying methods for creating or calculating behavioral and
-demographic measures
-"""
+"""Data structures for creating or calculating behavioral and demographic measures."""
 
 import numpy as np
 import pandas as pd
