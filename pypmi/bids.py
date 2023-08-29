@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Code for preparing raw PPMI neuroimaging data to be converted to BIDS format
-with heudiconv.
-"""
+"""Code for preparing raw PPMI neuroimaging data to be converted to BIDS format."""
 
 from os import PathLike
 import pathlib
@@ -28,7 +25,7 @@ def _prepare_subject(subj_dir: Union[str, PathLike],
                      timeout: Union[str, PathLike] = None,
                      confirm_uids: bool = True) -> str:
     """
-    Reorganizes `subj_dir` to structure more compatible with ``heudiconv``
+    Reorganizes `subj_dir` to structure more compatible with ``heudiconv``.
 
     Parameters
     ----------
@@ -50,7 +47,6 @@ def _prepare_subject(subj_dir: Union[str, PathLike],
         List of paths to data directories where sessions had inconsistent
         study instance UIDs
     """
-
     bad_scans = pd.read_csv(BAD_SCANS)
 
     # coerce subj_dir to path object
@@ -116,7 +112,7 @@ def _prepare_directory(data_dir: Union[str, PathLike],
                        ignore_bad: bool = True,
                        confirm_uids: bool = True) -> List[str]:
     """
-    Reorganizes PPMI `data_dir` to a structure compatible with ``heudiconv``
+    Reorganizes PPMI `data_dir` to a structure compatible with ``heudiconv``.
 
     PPMI data starts off with a sub-directory structure that is not conducive
     to use with ``heudiconv``. By default, scans are grouped by scan type
@@ -157,7 +153,6 @@ def _prepare_directory(data_dir: Union[str, PathLike],
         List of paths to data directories where subjects / sessions may have
         had inconsistent study instance UIDs that should be coerced
     """
-
     if isinstance(data_dir, str):
         data_dir = pathlib.Path(data_dir).resolve()
 
@@ -183,7 +178,7 @@ def _prepare_directory(data_dir: Union[str, PathLike],
 def _force_consistent_uids(data_dir: Union[str, PathLike],
                            target_uid: str = None):
     """
-    Forces all DICOMs inside `data_dir` to have consistent study instance UID
+    Force all DICOMs inside `data_dir` to have consistent study instance UID.
 
     Will recursively crawl sub-directories of `data_dir` to check for DICOMs
 
@@ -197,7 +192,6 @@ def _force_consistent_uids(data_dir: Union[str, PathLike],
         specified the study instance UID from the first DICOM found will be
         used instead. Default: None
     """
-
     data_dir = pathlib.Path(data_dir).resolve()
 
     for n, fn in enumerate(data_dir.rglob('*dcm')):
@@ -211,7 +205,7 @@ def _force_consistent_uids(data_dir: Union[str, PathLike],
 
 def _clean_directory(out_dir: Union[str, PathLike]):
     """
-    Does some final post-processing on the converted data
+    Do some final post-processing on the converted data.
 
     Includes merging T1w images that were, for some inexplicable reason, split
     into two volumes
@@ -222,13 +216,12 @@ def _clean_directory(out_dir: Union[str, PathLike]):
         Path to output directory where BIDS-format PPMI dataset should be
         generated
     """
-
     return out_dir
 
 
 def _merge_3d_t1w(filename: Union[str, PathLike]) -> pathlib.Path:
     """
-    Merges T1w images that have been split into two volumes
+    Merge T1w images that have been split into two volumes.
 
     Parameters
     ----------
@@ -240,7 +233,6 @@ def _merge_3d_t1w(filename: Union[str, PathLike]) -> pathlib.Path:
     filename : pathlib.Path
         Path to merged T1w image
     """
-
     import numpy as np
 
     filename = pathlib.Path(filename).resolve()
@@ -266,7 +258,7 @@ def convert_ppmi(raw_dir: Union[str, PathLike],
                  overwrite: bool = False,
                  heudiconv_tag: str = '0.5.4') -> pathlib.Path:
     """
-    Converts PPMI DICOMs in `raw_dir` to BIDS dataset at `out_dir`
+    Convert PPMI DICOMs in `raw_dir` to BIDS dataset at `out_dir`.
 
     Processes data using ``heudiconv``; as such, you must have Docker installed
     on your system for this function to work
@@ -347,7 +339,6 @@ def convert_ppmi(raw_dir: Union[str, PathLike],
     Once re-organization is done the resulting directory is processed with
     ``heudiconv`` and the converted BIDS dataset is stored in `out_dir`.
     """
-
     if not bids_avail:
         raise ImportError('BIDsification of PPMI data requires the following '
                           'additional Python packages: docker (or docker-py), '
