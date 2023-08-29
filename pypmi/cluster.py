@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Various functions for working with PPMI data
-"""
+"""Various functions for working with PPMI data."""
 
 import numpy as np
 import pandas as pd
@@ -10,7 +8,7 @@ import scipy.stats as sstats
 
 def cluster_fereshtehnejad2017(data: pd.DataFrame) -> np.ndarray:
     """
-    Clusters subjects in `data` according to criteria defined in [CL1]_
+    Cluster subjects in `data` according to criteria defined in [CL1]_.
 
     Subjects will be grouped into one of three clusters: (1) mild motor-
     predominant, (2) intermediate, or (3) diffuse malignant. These groupings
@@ -35,7 +33,6 @@ def cluster_fereshtehnejad2017(data: pd.DataFrame) -> np.ndarray:
        (2017). Clinical criteria for subtyping Parkinson’s disease: biomarkers
        and longitudinal progression. Brain, 140, 1959-1976.
     """
-
     mot_measures = [
         ['updrs_ii', 'updrs_iii', 'pigd']
     ]
@@ -85,7 +82,7 @@ def cluster_fereshtehnejad2017(data: pd.DataFrame) -> np.ndarray:
 
 def cluster_faghri2018(path: str = None) -> pd.DataFrame:
     """
-    Generates cluster assignments for subjects as in [CL2]_
+    Generate cluster assignments for subjects as in [CL2]_.
 
     Parameters
     ----------
@@ -106,5 +103,4 @@ def cluster_faghri2018(path: str = None) -> pd.DataFrame:
        progression, and clinical subtypes of Parkinson disease using machine
        learning. bioRxiv, 338913.
     """
-
     raise NotImplementedError
