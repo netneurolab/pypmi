@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Functions for loading data downloaded from the PPMI database
-"""
+"""Functions for loading data downloaded from the PPMI database."""
 
 from functools import reduce
 import itertools
@@ -19,7 +17,7 @@ from .utils import _get_data_dir
 def load_biospecimen(path: str = None,
                      measures: List[str] = None) -> pd.DataFrame:
     """
-    Loads biospecimen data into tidy dataframe
+    Load biospecimen data into tidy dataframe.
 
     Parameters
     ----------
@@ -45,7 +43,6 @@ def load_biospecimen(path: str = None,
     --------
     pypmi.available_biospecimen
     """
-
     rename_cols = dict(PATNO='participant', CLINICAL_EVENT='visit',
                        TESTNAME='test', TESTVALUE='score')
     dtype = dict(PATNO=int, CLINICAL_EVENT=VISITS, TESTNAME=str, TESTVALUE=str)
@@ -84,7 +81,7 @@ def load_biospecimen(path: str = None,
 
 def available_biospecimen(path: str = None) -> List[str]:
     """
-    Lists measures available in :py:func:`pypmi.load_biospecimen`
+    List measures available in :py:func:`pypmi.load_biospecimen`.
 
     Parameters
     ----------
@@ -102,7 +99,6 @@ def available_biospecimen(path: str = None) -> List[str]:
     --------
     pypmi.load_biospecimen
     """
-
     # check for file and get data directory path
     fname = 'Current_Biospecimen_Analysis_Results.csv'
     path = os.path.join(_get_data_dir(path=path, fnames=[fname]), fname)
@@ -115,7 +111,7 @@ def available_biospecimen(path: str = None) -> List[str]:
 def load_datscan(path: str = None,
                  measures: List[str] = None) -> pd.DataFrame:
     """
-    Loads DaT scan data into tidy dataframe
+    Load DaT scan data into tidy dataframe.
 
     Parameters
     ----------
@@ -137,7 +133,6 @@ def load_datscan(path: str = None,
     --------
     pypmi.available_datscan
     """
-
     rename_cols = dict(PATNO='participant', EVENT_ID='visit', SCAN_DATE='date')
     dtype = dict(PATNO=int, EVENT_ID=VISITS, SCAN_DATE=str)
 
@@ -174,7 +169,7 @@ def load_datscan(path: str = None,
 
 def available_datscan(path: str = None) -> List[str]:
     """
-    Lists measures available in :py:func:`pypmi.load_datscan`
+    List measures available in :py:func:`pypmi.load_datscan`.
 
     Parameters
     ----------
@@ -192,7 +187,6 @@ def available_datscan(path: str = None) -> List[str]:
     --------
     pypmi.load_datscan
     """
-
     # check for file and get data directory path
     fname = 'DATScan_Analysis.csv'
     path = os.path.join(_get_data_dir(path=path, fnames=[fname]), fname)
@@ -210,7 +204,7 @@ def available_datscan(path: str = None) -> List[str]:
 def load_behavior(path: str = None,
                   measures: List[str] = None) -> pd.DataFrame:
     """
-    Loads clinical-behavioral data into tidy dataframe
+    Load clinical-behavioral data into tidy dataframe.
 
     Parameters
     ----------
@@ -232,7 +226,6 @@ def load_behavior(path: str = None,
     --------
     pypmi.available_behavior
     """
-
     rename_cols = dict(PATNO='participant', EVENT_ID='visit', INFODT='date')
 
     # determine measures
@@ -311,7 +304,7 @@ def load_behavior(path: str = None,
 
 def available_behavior(path: str = None) -> List[str]:
     """
-    Lists measures available in :py:func:`pypmi.load_behavior`
+    List measures available in :py:func:`pypmi.load_behavior`.
 
     Parameters
     ----------
@@ -329,7 +322,6 @@ def available_behavior(path: str = None) -> List[str]:
     --------
     pypmi.load_behavior
     """
-
     measures = sorted(list(BEHAVIORAL_INFO.keys()) + ['updrs_iii_a'])
     measures.remove('education')
 
@@ -339,7 +331,7 @@ def available_behavior(path: str = None) -> List[str]:
 def load_demographics(path: str = None,
                       measures: List[str] = None) -> pd.DataFrame:
     """
-    Loads demographic data into tidy dataframe
+    Load demographic data into tidy dataframe.
 
     Parameters
     ----------
@@ -361,7 +353,6 @@ def load_demographics(path: str = None,
     --------
     pypmi.available_demographics
     """
-
     rename_cols = dict(PATNO='participant', EVENT_ID='visit')
     dtype = dict(PATNO=int)
 
@@ -386,7 +377,7 @@ def load_demographics(path: str = None,
 
     # iterate through demographic info to wrangle
     for key, curr_key in dem_info.items():
-        for n, (fname, items) in enumerate(curr_key['files'].items()):
+        for _, (fname, items) in enumerate(curr_key['files'].items()):
             data = pd.read_csv(os.path.join(path, fname), dtype=dtype)
             curr_score = data[items]
             for attr in [f for f in curr_key.keys() if f not in ['files']]:
@@ -407,7 +398,7 @@ def load_demographics(path: str = None,
 
 def available_demographics(path: str = None) -> List[str]:
     """
-    Lists measures available in :py:func:`pypmi.load_demographics`
+    List measures available in :py:func:`pypmi.load_demographics`.
 
     Parameters
     ----------
@@ -425,14 +416,13 @@ def available_demographics(path: str = None) -> List[str]:
     --------
     pypmi.load_demographics
     """
-
     return list(DEMOGRAPHIC_INFO.keys())
 
 
 def _load_dates(path: str = None,
                 fnames: List[str] = None) -> pd.DataFrame:
     """
-    Loads visit date information into tidy dataframe
+    Load visit date information into tidy dataframe.
 
     Parameters
     ----------
@@ -453,7 +443,6 @@ def _load_dates(path: str = None,
         linking each visit (valued as e.g., "V01", "V02") with a specific
         YYYY-MM-DD date
     """
-
     rename_cols = dict(PATNO='participant', EVENT_ID='visit', INFODT='date')
     dtype = dict(PATNO=int, EVENT_ID=VISITS)
 
@@ -488,7 +477,7 @@ def _add_dates(df: pd.DataFrame,
                path: str = None,
                fnames: List[str] = None) -> pd.DataFrame:
     """
-    Attempts to add visit date to information to dataframe `df`
+    Attempt to add visit date to information to dataframe `df`.
 
     If files required for visit date information cannot be found then `df` is
     returned, unaltered
@@ -512,7 +501,6 @@ def _add_dates(df: pd.DataFrame,
     df : :obj:`pandas.DataFrame`
         Provided `df` with new 'date' columns
     """
-
     try:
         tidy = pd.merge(df, _load_dates(path=path, fnames=fnames),
                         on=['participant', 'visit'], how='left')
@@ -526,9 +514,9 @@ def _add_dates(df: pd.DataFrame,
 
 
 def load_genetics(fname: str,
-                  gene_list: str = None) -> (pd.DataFrame, pd.DataFrame):
+                  gene_list: str = None) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Loads PPMI genotyping data stored at `fname`
+    Load PPMI genotyping data stored at `fname`.
 
     Parameters
     ----------
@@ -547,13 +535,12 @@ def load_genetics(fname: str,
         Information on SNPs in `data`, including 'odds_ratio' for genetic
         risk score calculation
     """
-
     try:
         from pandas_plink import read_plink
     except ImportError:
         raise ImportError('Loading genotyping data requires installing the '
                           '`pandas_plink` module. Please install that and try '
-                          'again.')
+                          'again.') from None
 
     # make helper function for extracting SNP rs# from PLINK files
     def extract(x):

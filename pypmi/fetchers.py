@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Functions for fetching/downloading data from the PPMI database
-"""
+"""Functions for fetching/downloading data from the PPMI database."""
 
 from io import BytesIO
 import json
@@ -26,7 +24,7 @@ def _get_download_params(url,
                          user: str = None,
                          password: str = None) -> Dict[str, str]:
     """
-    Returns credentials for downloading raw study data from the PPMI
+    Return credentials for downloading raw study data from the PPMI.
 
     Parameters
     ----------
@@ -43,7 +41,6 @@ def _get_download_params(url,
     params : dict
         With keys 'userId' and 'authKey', ready to be supplied to a GET call
     """
-
     user, password = _get_authentication(user, password)
 
     # check what page we'll be querying for authentication key based on
@@ -100,7 +97,7 @@ def _download_data(info: Dict[str, Dict[str, str]],
                    verbose: bool = True,
                    bundle: bool = True) -> List[str]:
     """
-    Downloads dataset(s) listed in `info` from `url`
+    Download dataset(s) listed in `info` from `url`.
 
     Parameters
     ----------
@@ -138,7 +135,6 @@ def _download_data(info: Dict[str, Dict[str, str]],
     downloaded : list
         Filepath(s) to downloaded datasets
     """
-
     params = dict(type='GET_FILES', userId=None, authKey=None, fileId=None)
     path = _get_data_dir(path)
 
@@ -245,7 +241,7 @@ def _download_data(info: Dict[str, Dict[str, str]],
 
 def fetchable_studydata() -> List[str]:
     """
-    Lists study data available to download from the PPMI
+    List study data available to download from the PPMI.
 
     Returns
     -------
@@ -256,13 +252,12 @@ def fetchable_studydata() -> List[str]:
     --------
     pypmi.fetch_studydata
     """
-
     return list(_STUDYDATA.keys())
 
 
 def fetchable_genetics(projects: bool = False) -> List[str]:
     """
-    Lists genetics data available to download from the PPMI
+    List genetics data available to download from the PPMI.
 
     Parameters
     ----------
@@ -283,7 +278,6 @@ def fetchable_genetics(projects: bool = False) -> List[str]:
     --------
     pypmi.fetch_genetics
     """
-
     if projects:
         return ['project {}'.format(project)
                 for project in [107, 108, 115, 116, 118, 120, 133]]
@@ -298,7 +292,7 @@ def fetch_studydata(*datasets: str,
                     overwrite: bool = False,
                     verbose: bool = True) -> List[str]:
     """
-    Downloads specified study data `datasets` from the PPMI database
+    Download specified study data `datasets` from the PPMI database.
 
     Parameters
     ----------
@@ -333,7 +327,6 @@ def fetch_studydata(*datasets: str,
     --------
     pypmi.fetchable_studydata
     """
-
     url = "https://utilities.loni.usc.edu/download/study"
 
     # take subset of available study data based on requested `datasets`
@@ -352,7 +345,7 @@ def fetch_genetics(*datasets: str,
                    overwrite: bool = False,
                    verbose: bool = True) -> List[str]:
     """
-    Downloads specified genetics data `datasets` from the PPMI database
+    Download specified genetics data `datasets` from the PPMI database.
 
     Parameters
     ----------
@@ -387,7 +380,6 @@ def fetch_genetics(*datasets: str,
     --------
     pypmi.fetchable_genetics
     """
-
     url = "https://utilities.loni.usc.edu/download/genetic"
     datasets = list(datasets)
 
