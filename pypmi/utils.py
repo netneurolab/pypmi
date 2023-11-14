@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Common utility functions for the `pypmi` package."""
 
 import os
 from typing import List, Tuple
@@ -7,7 +8,7 @@ from typing import List, Tuple
 def _get_authentication(user: str = None,
                         password: str = None) -> Tuple[str, str]:
     """
-    Gets PPMI authentication from environmental variables if not supplied
+    Get PPMI authentication from environmental variables if not supplied.
 
     Parameters
     ----------
@@ -24,7 +25,6 @@ def _get_authentication(user: str = None,
     user, password : str
         Authentication for PPMI database
     """
-
     var = env = None
 
     # try and find user in environmental variable "$PPMI_USER"
@@ -53,7 +53,7 @@ def _get_authentication(user: str = None,
 def _get_data_dir(path: str = None,
                   fnames: List[str] = None) -> str:
     """
-    Gets `path` to PPMI data directory, searching environment if necessary
+    Get `path` to PPMI data directory, searching environment if necessary.
 
     Will optionally check whether supplied `fnames` are present at `path`
 
@@ -77,7 +77,6 @@ def _get_data_dir(path: str = None,
     ------
     FileNotFoundError
     """
-
     # try and find directory in environmental variable "$PPMI_PATH"
     if path is None:
         try:
