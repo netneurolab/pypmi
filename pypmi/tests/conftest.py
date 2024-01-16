@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Code for testing the `pypmi` package."""
 
 import json
 import os
@@ -12,6 +13,7 @@ with open(resource_filename('pypmi', 'data/studydata.json'), 'r') as src:
 
 @pytest.fixture(scope='session')
 def datadir():
+    """Return the path to the data directory."""
     if os.environ.get('PPMI_PATH') is None:
         path = os.path.join(os.environ['HOME'], 'pypmi-data')
         os.makedirs(path, exist_ok=True)
@@ -23,6 +25,7 @@ def datadir():
 
 @pytest.fixture(scope='session')
 def studydata(datadir):
+    """Return the path to the studydata directory."""
     # download data (don't overwrite if we already did it)
     pypmi.fetch_studydata('all', path=datadir, overwrite=False)
 

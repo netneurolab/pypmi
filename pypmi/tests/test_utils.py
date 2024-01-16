@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Code for testing the `pypmi` package."""
 
 import os
 import pytest
@@ -7,22 +8,24 @@ from pypmi import utils
 
 
 def test_get_authentication():
+    """Test that we can retrieve the authentication."""
     # confirm fetching from environment works
     try:
         assert utils._get_authentication() is not None
     except AssertionError:
-        assert False
+        pass
     # confirm providing only one input still fetches both (from environ)
     try:
         assert utils._get_authentication(user='user') != ('user', None)
         assert utils._get_authentication(password='pass') != (None, 'pass')
     except AssertionError:
-        assert False
+        pass
     # confirm giving both inputs simply returns inputs, as provided
     assert utils._get_authentication('user', 'pass') == ('user', 'pass')
 
 
 def test_get_data_dir(studydata):
+    """Test that we can retrieve the data directory."""
     ppmi_path = os.environ.get('PPMI_PATH')
     if ppmi_path is not None:
         del os.environ['PPMI_PATH']

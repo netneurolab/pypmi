@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Code for testing the `pypmi` package."""
 
 import numpy as np
 import pytest
@@ -13,11 +14,13 @@ from pypmi import loaders
     (loaders.available_demographics, 12)
 ])
 def test_available_dsets(studydata, loader, expected):
+    """Test that we can load the available datasets."""
     dsets = loader(studydata)
     assert isinstance(dsets, list) and len(dsets) == expected
 
 
 def test_load_dates(studydata):
+    """Test that we can load the dates dataset."""
     out = loaders._load_dates(studydata)
     assert all(out.columns == ['participant', 'visit', 'date'])
     # check that columns have appropriate datatypes
@@ -36,6 +39,7 @@ def test_load_dates(studydata):
     (loaders.load_datscan, ['caudate_l', 'caudate_r'], ['caudate_l', 'caudate_r'])  # noqa
 ])
 def test_load_dsets(studydata, loader, measures, expected):
+    """Test that we can load the datasets."""
     out = loader(studydata, measures=measures)
     # check that we have all the columns we expect to have
     assert all(out.columns[:3] == ['participant', 'visit', 'date'])
@@ -49,6 +53,7 @@ def test_load_dsets(studydata, loader, measures, expected):
     (['diagnosis', 'date_birth'], ['diagnosis', 'date_birth'])
 ])
 def test_load_demographics(studydata, measures, expected):
+    """Test that we can load the demographics dataset."""
     out = loaders.load_demographics(studydata, measures=measures)
     if callable(expected):
         expected = expected(studydata)
