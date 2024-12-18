@@ -3,9 +3,10 @@
 
 import os
 from typing import List, Tuple
+from pathlib import Path
 
 
-def _get_authentication(user: str = None,
+def _get_cred(user: str = None,
                         password: str = None) -> Tuple[str, str]:
     """
     Get PPMI authentication from environmental variables if not supplied.
@@ -50,8 +51,7 @@ def _get_authentication(user: str = None,
     return user, password
 
 
-def _get_data_dir(path: str = None,
-                  fnames: List[str] = None) -> str:
+def _get_data_dir(path: str = None) -> str:
     """
     Get `path` to PPMI data directory, searching environment if necessary.
 
@@ -63,10 +63,7 @@ def _get_data_dir(path: str = None,
         Filepath to directory containing PPMI data files. If not specified this
         function will, in order, look (1) for an environmental variable
         $PPMI_PATH and (2) in the current directory. Default: None
-    fnames : list, optional
-        Filenames to check for at `path` (once `path` has been determined). If
-        any of the files listed in `fnames` do not exist a FileNotFoundError
-        will be raised.
+
 
     Returns
     -------
@@ -78,22 +75,24 @@ def _get_data_dir(path: str = None,
     FileNotFoundError
     """
     # try and find directory in environmental variable "$PPMI_PATH"
+    print(path, os.environ['PPMI_PATH'])
     if path is None:
         try:
-            path = os.environ['PPMI_PATH']
+            path = Path(os.environ['PPMI_PATH']).resolve()
         except KeyError:
-            path = os.getcwd()
-
-    if fnames is not None:
-        for fn in fnames:
-            if not os.path.isfile(os.path.join(path, fn)):
-                raise FileNotFoundError('{} does not exist in {}. Please make '
-                                        'sure you have downloaded the '
-                                        'appropriate files from the PPMI '
-                                        'database and try again. You can use '
-                                        '`pypmi.datasets.fetch_studydata(\'all'
-                                        '\')` to automatically download all '
-                                        'required data files.'
-                                        .format(fn, path))
+            path = Path.cwd().resolve()
+    else:
+        path = Path(path).resolve()
 
     return path
+
+
+def _check_data_exist(path, fname, datetoken=None):
+    # check data existence:
+    path = _get_data_dir(path)
+    if datetoken is not None:
+        fname = fname.format(DATETOKEN=datetoken)
+        return (path / fname).is_file()
+    else:
+        fname = fname.format(DATETOKEN="*")
+        return any(path.glob(fname))
