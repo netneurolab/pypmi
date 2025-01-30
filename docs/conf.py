@@ -15,7 +15,7 @@ import sys
 # -- Project information -----------------------------------------------------
 
 project = 'pypmi'
-copyright = '2018, pypmi developers'
+copyright = '2018-2025, pypmi developers'
 author = 'pypmi developers'
 
 # Import project to get version info
@@ -105,5 +105,4 @@ htmlhelp_basename = 'pypmidoc'
 # -- Extension configuration -------------------------------------------------
 intersphinx_mapping = {
     'numpy': ('https://docs.scipy.org/doc/numpy', None),
-    'pandas': ('http://pandas-docs.github.io/pandas-docs-travis/', None),
 }
