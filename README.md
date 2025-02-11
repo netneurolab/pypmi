@@ -2,19 +2,16 @@
 
 This package provides a Python interface for working with data from the [Parkinson's Progression Markers Initiative](https://www.ppmi-info.org/) (PPMI).
 
-[![Build Status](https://travis-ci.org/rmarkello/pypmi.svg?branch=master)](https://travis-ci.org/rmarkello/pypmi)
-[![Codecov](https://codecov.io/gh/rmarkello/pypmi/branch/master/graph/badge.svg)](https://codecov.io/gh/rmarkello/pypmi)
-[![Documentation Status](https://readthedocs.org/projects/pypmi/badge/?version=latest)](http://pypmi.readthedocs.io/en/latest/?badge=latest)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![PyPi](https://img.shields.io/pypi/v/pypmi.svg)](https://pypi.org/project/pypmi/)
 
 ## Installation and setup
 
-This package requires Python >= 3.6.
+This package requires Python >= 3.8.
 If you have the correct version of Python installed, you can install this package by opening a terminal and running the following:
 
 ```bash
-git clone https://github.com/rmarkello/pypmi.git
+git clone https://github.com/netneurolab/pypmi.git
 cd pypmi
 python setup.py install
 ```
@@ -53,57 +50,6 @@ Alternatively, you can use the `pypmi` API to download the data programatically:
 
 By default, the data will be downloaded to your current directory making it easy to load them in the future, but you can optionally provide a `path` argument to `pypmi.fetch_studydata()` to specify where you would like the data to go.
 (Alternatively, you can set an environmental variable `$PPMI_PATH` to specify where they should be downloaded to; this will be used if `path` is not specified.)
-
-Once you have the data downloaded you can load some of it as a [tidy](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html) [`pandas.DataFrame`](https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html):
-
-```python
->>> behavior = pypmi.load_behavior()
->>> behavior.columns
-Index(['participant', 'visit', 'date', 'benton', 'epworth', 'gds',
-       'hvlt_recall', 'hvlt_recognition', 'hvlt_retention', 'lns', 'moca',
-       'pigd', 'quip', 'rbd', 'scopa_aut', 'se_adl', 'semantic_fluency',
-       'stai_state', 'stai_trait', 'symbol_digit', 'systolic_bp_drop',
-       'tremor', 'updrs_i', 'updrs_ii', 'updrs_iii', 'updrs_iii_a', 'updrs_iv',
-       'upsit'],
-      dtype='object')
-```
-
-The call to `pypmi.load_behavior()` may take a few seconds to run&mdash;there's a lot of data to import!
-
-If we want to query the data with regards to diagnosis it might be useful to load in some demographic information:
-
-```python
->>> demographics = pypmi.load_demographics()
->>> demographics.columns
-Index(['participant', 'diagnosis', 'date_birth', 'date_diagnosis',
-       'date_enroll', 'status', 'family_history', 'age', 'gender', 'race',
-       'site', 'handedness', 'education'],
-      dtype='object')
-```
-
-Now we can perform some interesting queries!
-As an example, let's just ask how many individuals with Parkinson's disease have a baseline UPDRS III score.
-We'll have to use information from both data frames to answer the question:
-
-```python
->>> import pandas as pd
->>> updrs = (behavior.query('visit == "BL" & ~updrs_iii.isna()')
-...                  .get(['participant', 'updrs_iii']))
->>> parkinsons = demographics.query('diagnosis == "pd"').get('participant')
->>> len(pd.merge(parkinsons, updrs, on='participant'))
-423
-```
-
-And the same for healthy individuals:
-
-```python
->>> healthy = demographics.query('diagnosis == "hc"').get('participant')
->>> len(pd.merge(healthy, updrs))
-195
-```
-
-There's a lot of power gained in leveraging the pandas DataFrame objects, so take a look at the [pandas documentation](https://pandas.pydata.org/) to see what more you can do!
-Also be sure to check out the [`pypmi` documentation](https://pypmi.readthedocs.io) for more information.
 
 ## Development and getting involved
 

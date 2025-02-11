@@ -9,3 +9,6 @@ _build/
 build/
 dist/
 generated/
+.env
+pytest.ini
+.ruff_cache/
