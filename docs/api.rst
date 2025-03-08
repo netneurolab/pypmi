@@ -7,16 +7,16 @@ This is the primary reference of ``pypmi``. Please refer to the :ref:`user
 guide <usage>` for more information on how to best implement these functions in
 your own workflows.
 
-.. _ref_datasets:
+.. _ref_fetchers:
 
-:mod:`pypmi` - Dataset fetchers and loaders
+:mod:`pypmi.fetchers` - Dataset fetchers
 ------------------------------------------------------
 
-.. automodule:: pypmi
+.. automodule:: pypmi.fetchers
    :no-members:
    :no-inherited-members:
 
-.. currentmodule:: pypmi
+.. currentmodule:: pypmi.fetchers
 
 Functions for listing and downloading datasets from the PPMI database:
 
@@ -24,7 +24,7 @@ Functions for listing and downloading datasets from the PPMI database:
    :template: function.rst
    :toctree:  generated/
 
-    fetchable_studydata
-    fetchable_genetics
-    fetch_studydata
-    fetch_genetics
+   pypmi.fetchers.fetchable_studydata
+   pypmi.fetchers.fetchable_genetics
+   pypmi.fetchers.fetch_studydata
+   pypmi.fetchers.fetch_genetics
